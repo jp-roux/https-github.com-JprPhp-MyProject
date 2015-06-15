@@ -24,7 +24,7 @@ class ArticleRepository extends EntityRepository
 					
 					->where('a.publication = :val')
 					->setParameter('val', 1)
-					->orderBy('a.datecreation', 'DESC');
+					->orderBy('a.id', 'ASC');
 					
 		$query = $qb->getQuery();
 		return $query->getResult();

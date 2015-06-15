@@ -13,4 +13,7 @@ jeanphilippe_modifier:
 #Un libelle
     requirements:
         page: \w+  
+jeanphilippe_crudArticle:
+    path:     /CrudArticle
+    defaults: { _controller: JeanphilippeBlogBundle:Blog:crudArticle }  
  

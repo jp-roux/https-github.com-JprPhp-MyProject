@@ -8,10 +8,13 @@ use Jeanphilippe\BlogBundle\Form\ArticleType;
 use Jeanphilippe\BlogBundle\Entity\Image; 
 use Jeanphilippe\BlogBundle\Entity\Commentaire; 
 use Jeanphilippe\BlogBundle\Entity\Categorie; 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class BlogController extends Controller
 {
-    public function indexAction()
+/* Cas : 1
+	public function indexAction()
     {
 		$repository = $this->getDoctrine()->getManager()->getRepository( 'JeanphilippeBlogBundle:Article');
 		//$articles   = $repository->findAll();
@@ -19,8 +22,44 @@ class BlogController extends Controller
 		
         return $this->render('JeanphilippeBlogBundle:Blog:index.html.twig', array('articles' => $articles));
     }
+*/
+
 	
-    public function voirAction($id)
+
+	/**
+     * @Route("/", name="jeanphilippe_accueil")
+     * @Template("JeanphilippeBlogBundle:Blog:index.html.twig")
+    */
+	public function indexAction()
+    {
+    	$repository = $this->getDoctrine()->getManager()->getRepository( 'JeanphilippeBlogBundle:Article');
+    	//$articles   = $repository->findAll();
+    	$articles   = $repository->getArticles();
+    
+    	return array('articles' => $articles);
+    }
+  
+	/**
+	 * Cas : 3
+	 * @Route("/CrudArticle", name="jeanphilippe_crudArticle")
+	 * @Template("JeanphilippeBlogBundle:Article:index.html.twig")
+	 */
+	
+	 public function crudArticleAction()
+	 {
+		$repository = $this->getDoctrine()->getManager()->getRepository( 'JeanphilippeBlogBundle:Article');
+		$articles   = $repository->getArticles();
+		
+		return array('entities' => $articles);
+	}
+	
+	
+	
+	/**
+	* @Route("/Article/{id}", name="jeanphilippe_voir", requirements={"id"="\d+"})
+	* @Template("JeanphilippeBlogBundle:Blog:voir.html.twig")
+	*/
+    public function voirAction(Article $article)
     {
 		/* Methode 1
 		$repositoryA 	= $this->getDoctrine()->getManager()->getRepository( 'JeanphilippeBlogBundle:Article');
@@ -33,13 +72,15 @@ class BlogController extends Controller
 		*/
 		
 		/* Methode 2*/
-		$repository 	= $this->getDoctrine()->getManager()->getRepository( 'JeanphilippeBlogBundle:Article');
-		$article   		= $repository->getArticle( $id);
+		//$repository 	= $this->getDoctrine()->getManager()->getRepository( 'JeanphilippeBlogBundle:Article');
+		//$article   		= $repository->getArticle( $id);
 	
         //return $this->render('JeanphilippeBlogBundle:Blog:voir.html.twig', array('article' => $article, 'commentaires' => $commentaires, 'categories' => $categories));
         //return $this->render('JeanphilippeBlogBundle:Blog:voir.html.twig', array('article' => $article, 'categories' => $categories));
         //return $this->render('JeanphilippeBlogBundle:Blog:voir.html.twig', array('article' => $article, 'categories' => $categories));
-        return $this->render('JeanphilippeBlogBundle:Blog:voir.html.twig', array('article' => $article));
+        //return $this->render('JeanphilippeBlogBundle:Blog:voir.html.twig', array('article' => $article));
+        //return $this->render( array('article' => $article));
+        return array('article' => $article);
     }
 	
     public function ajouterAction()
@@ -102,7 +143,7 @@ class BlogController extends Controller
 						->add( 'auteur', 'text')
 						->add( 'publication', 'checkbox');   // Type html
 						
-			// A partir du formBuilder on gènère le formulaire
+			// A partir du formBuilder on gï¿½nï¿½re le formulaire
 			$form = $formBuilder->getForm();
 **/
 			$form = $this->createForm( new ArticleType, $article);
@@ -122,7 +163,7 @@ class BlogController extends Controller
 				}
 			}
 			
-			// On passe la methode createView du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
+			// On passe la methode createView du formulaire ï¿½ la vue afin qu'elle puisse afficher le formulaire toute seule
 			return $this->render( 'JeanphilippeBlogBundle:Blog:ajouter.html.twig', array('form' => $form->createView() ));
 			
     }	

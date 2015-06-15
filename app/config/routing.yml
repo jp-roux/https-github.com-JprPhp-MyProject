@@ -5,3 +5,7 @@ jeanphilippe_blog:
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+blog:
+    resource: "@JeanphilippeBlogBundle/Controller/"
+    type:     annotation
