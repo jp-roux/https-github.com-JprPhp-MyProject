@@ -1,0 +1,13 @@
+{% extends "JeanphilippeBlogBundle::layout.html.twig" %}
+{% block  JeanphilippeBlog_body %}
+Article( {{ article.id~article.titre }} ) 
+<img src='{{asset('images/')}}{{article.image.url}} 'alt='{{article.image.alt}}'/img>
+
+{% for commentaire in article.commentaires %}
+	<li>{{ commentaire.id|e }}---{{ commentaire.contenu|e }}---{{ commentaire.date|date("m/d/Y:m:s", false) }}</li>
+{% endfor %}
+
+{% for categorie in article.categories %}
+	<li>{{ categorie.nom|e }}</li>
+{% endfor %}
+{% endblock %}

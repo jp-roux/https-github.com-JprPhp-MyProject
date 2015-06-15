@@ -1,0 +1,14 @@
+{% extends "JeanphilippeBlogBundle::layout.html.twig" %}
+{% block  JeanphilippeBlog_body %}
+Article {{ nomArt }} modifié OK.
+{% endblock %}
+
+
+% extends "JeanphilippeBlogBundle::layout.html.twig" %}
+{% block title %} {{ parent() }} - Modifier : {{article.titre}}{% endblock %}
+{% block title %}
+<article>
+<h1> Modifier: {{ article.titre}} </h1>
+{% include "JeanphilippeBlogBundle:Blog:formulaire.html.twig" %}
+</article>
+{% endblock %}

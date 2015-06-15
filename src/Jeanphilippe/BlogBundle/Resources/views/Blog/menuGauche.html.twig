@@ -1,0 +1,7 @@
+<table class="table-bordered" WIDTH=100%>
+{% for article in articles %}
+    <tr>
+	<td><b>{{ article.id }}</b></td>   <td>{{ article.datecreation|date("m/d/Y:m:s", false) }}</td> <td><small style='color:black'>{{article.contenu}}</small></td>
+	</tr>
+{% endfor %}
+</table>

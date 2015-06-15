@@ -1,0 +1,9 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - TestBlog {% endblock %}
+
+{% block body %}
+<div class="page_header"><h1>Layout de JP Blog</h1></div>
+    {% block  JeanphilippeBlog_body %}
+    {% endblock %}
+{% endblock %}

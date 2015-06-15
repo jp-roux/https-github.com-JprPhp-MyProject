@@ -1,0 +1,13 @@
+{% extends "JeanphilippeBlogBundle::layout.html.twig" %}
+{% block title %} {{ parent() }} - Ajouter : {{article.titre]]{% endblock %}
+<article>
+<h1> Ajouter : {{ article.titre}} </h1>
+{% include "JeanphilippeBlogBundle:Blog:formulaire.html.twig" %}
+
+<footer>
+<a  href="{{ path('Jeanphilippe_voir', { 'id': article.id} ) }}" class="btn btn-info">
+<i class="icon-backward icon-white"></i> Retour à l'article
+</a>
+</footer>
+</article>
+{% endblock %}

@@ -1,0 +1,9 @@
+<h3>Formulaire d'article</h3>
+<form method="post" {{  form_enctype(form)}} >
+{{ form_errors(form)}}
+{{ form_label(form.titre, "Titre de l'article")}}
+{{ form_errors(form.titre)}}
+{{ form_widget(form.titre, { 'attr': {'class': 'form-group'}} )}}
+{{form_rest(form)}}
+<input type="submit" class="btn btn-primary" />
+</form>

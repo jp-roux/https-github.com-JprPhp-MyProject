@@ -1,0 +1,16 @@
+jeanphilippe_accueil:
+    path:     /
+    defaults: { _controller: JeanphilippeBlogBundle:Blog:index }  
+jeanphilippe_voir:
+    path:     /Article/{id}
+    defaults: { _controller: JeanphilippeBlogBundle:Blog:voir,id:24 }
+jeanphilippe_ajouter:
+    path:     /AjoutArticle
+    defaults: { _controller: JeanphilippeBlogBundle:Blog:ajouter }
+jeanphilippe_modifier:
+    path:     /modifier/{id}
+    defaults: { _controller: JeanphilippeBlogBundle:Blog:modifier,id:24 }
+#Un libelle
+    requirements:
+        page: \w+  
+ 

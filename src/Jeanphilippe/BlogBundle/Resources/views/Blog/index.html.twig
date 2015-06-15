@@ -1,0 +1,13 @@
+{% extends "JeanphilippeBlogBundle::layout.html.twig" %}
+{% block  JeanphilippeBlog_body %}
+<table BORDER=10 WIDTH=50%>
+	<TR>
+		<TH>Id A</TH> <TH>Titre Art</TH> 
+	</TR>
+{% for article in articles %}
+	<TR>
+		<TD>{{ article.id|e }}</TD> <TD>{{ article.titre|e }}</TD>
+	</TR>
+{% endfor %}
+</table>	
+{% endblock %}
