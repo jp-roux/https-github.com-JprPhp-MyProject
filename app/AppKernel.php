@@ -1,4 +1,6 @@
 <?php
+//namespace AppBundle\Menu;
+
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -19,7 +21,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new Jeanphilippe\BlogBundle\JeanphilippeBlogBundle(),
         	new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-        		
+        	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),       		
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -36,4 +38,6 @@ class AppKernel extends Kernel
     {
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
     }
+    
+ 
 }

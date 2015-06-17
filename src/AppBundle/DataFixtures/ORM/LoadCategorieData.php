@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use jeanphilippe\BlogBundle\Entity\Categorie;
 
-class LoadUserData implements FixtureInterface
+class LoadCategorieData implements FixtureInterface
 {
     /**
      * {@inheritDoc}
@@ -20,4 +20,7 @@ class LoadUserData implements FixtureInterface
         $manager->persist($userCategorie);
         $manager->flush();
     }
+
+ 
+
 }

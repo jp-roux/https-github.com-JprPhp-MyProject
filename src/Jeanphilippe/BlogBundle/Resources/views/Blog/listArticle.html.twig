@@ -1,0 +1,32 @@
+{% extends "JeanphilippeBlogBundle::layout.html.twig" %}
+{% block  JeanphilippeBlog_body %}
+{# total items count #}
+<div class="count">
+    {{ pagination.getTotalItemCount }}
+</div>
+<table>
+<tr>
+{# sorting of properties based on query components #}
+    <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
+    <th{% if pagination.isSorted('a.titre') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Titre', 'a.titre') }}</th>
+    <th{% if pagination.isSorted('a.auteur') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Auteur', 'a.auteur') }}</th>
+    <th{% if pagination.isSorted('a.ontenu') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Contenu', 'a.contenu') }}</th>
+    <th{% if pagination.isSorted('a.datecreation') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date', 'a.datecreation') }}</th>
+</tr>
+
+{# table body #}
+{% for article in pagination %}
+<tr {% if loop.index is odd %}class="color"{% endif %}>
+    <td style="text-align: justify;" width="5%">{{ article.id }}</td>
+    <td style="text-align: justify;" width="15%">{{ article.titre }}</td>
+    <td style="text-align: justify;" width="15%">{{ article.auteur }}</td>
+    <td style="text-align: justify;" width="15%">{{ article.contenu }}</td>
+    <td style="text-align: justify;" width="15%">{{ article.datecreation|date("m/d/y", false) }}</td>
+</tr>
+{% endfor %}
+</table>
+{# display navigation #}
+<div class="navigation">
+    {{ knp_pagination_render(pagination) }}
+</div>	
+{% endblock %}

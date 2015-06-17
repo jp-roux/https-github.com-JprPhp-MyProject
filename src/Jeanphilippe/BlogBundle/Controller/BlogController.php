@@ -11,6 +11,7 @@ use Jeanphilippe\BlogBundle\Entity\Categorie;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class BlogController extends Controller
 {
@@ -29,15 +30,36 @@ class BlogController extends Controller
 
 	/**
      * @Route("/", name="jeanphilippe_accueil")
-     * @Template("JeanphilippeBlogBundle:Blog:index.html.twig")
+     **** @Template("JeanphilippeBlogBundle:Blog:index.html.twig")
     */
-	public function indexAction()
+	//public function indexAction()
+	public function indexAction( Request $request)
     {
+		/* Sans pagination
     	$repository = $this->getDoctrine()->getManager()->getRepository( 'JeanphilippeBlogBundle:Article');
     	//$articles   = $repository->findAll();
     	$articles   = $repository->getArticles();
     
     	return array('articles' => $articles);
+    	*/
+    	
+    	/* Pagination */
+    	/* Requete findall marche aussi */
+    	$em    = $this->get('doctrine.orm.entity_manager');
+    	$dql   = "SELECT a FROM JeanphilippeBlogBundle:Article a";
+    	$query = $em->createQuery($dql);
+    	 
+    	$paginator  = $this->get('knp_paginator');
+    	$pagination = $paginator->paginate(
+    			$query,
+    			$request->query->getInt('page', 1)/*page number*/,
+    			30/*limit per page*/
+    			);
+    	 
+    	// parameters to template
+    	return $this->render('JeanphilippeBlogBundle:Blog:listArticle.html.twig', array('pagination' => $pagination));
+    	
+    	 
     }
   
 	/**
@@ -82,9 +104,12 @@ class BlogController extends Controller
         //return $this->render('JeanphilippeBlogBundle:Blog:voir.html.twig', array('article' => $article, 'categories' => $categories));
         //return $this->render('JeanphilippeBlogBundle:Blog:voir.html.twig', array('article' => $article));
         //return $this->render( array('article' => $article));
+        
 		$repository 	= $this->getDoctrine()->getManager()->getRepository( 'JeanphilippeBlogBundle:Article');
 		$article   		= $repository->getArticle( $id_ou_slug);
     	return array('article' => $article);
+    	
+    	
     }
 	
     public function ajouterAction()
