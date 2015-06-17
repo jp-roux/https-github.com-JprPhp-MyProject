@@ -10,6 +10,7 @@ use Jeanphilippe\BlogBundle\Entity\Commentaire;
 use Jeanphilippe\BlogBundle\Entity\Categorie; 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class BlogController extends Controller
 {
@@ -57,9 +58,10 @@ class BlogController extends Controller
 	
 	/**
 	* @Route("/Article/{id}", name="jeanphilippe_voir", requirements={"id"="\d+"})
+	* @Route("/Article/{slug}", name="jeanphilippe_voir_slug")
 	* @Template("JeanphilippeBlogBundle:Blog:voir.html.twig")
 	*/
-    public function voirAction(Article $article)
+    public function voirAction(Article $id_ou_slug)
     {
 		/* Methode 1
 		$repositoryA 	= $this->getDoctrine()->getManager()->getRepository( 'JeanphilippeBlogBundle:Article');
@@ -80,7 +82,9 @@ class BlogController extends Controller
         //return $this->render('JeanphilippeBlogBundle:Blog:voir.html.twig', array('article' => $article, 'categories' => $categories));
         //return $this->render('JeanphilippeBlogBundle:Blog:voir.html.twig', array('article' => $article));
         //return $this->render( array('article' => $article));
-        return array('article' => $article);
+		$repository 	= $this->getDoctrine()->getManager()->getRepository( 'JeanphilippeBlogBundle:Article');
+		$article   		= $repository->getArticle( $id_ou_slug);
+    	return array('article' => $article);
     }
 	
     public function ajouterAction()
@@ -152,6 +156,19 @@ class BlogController extends Controller
 			if( $request->getMethod() == "POST"){
 				$form->handleRequest( $request);
 				if( $form->isValid()){
+						// On récupère le service validator
+						$validator = $this->get('validator');
+					
+						// On déclenche la validation
+						$liste_erreurs = $validator->validate($article);
+						
+						// Si le tableau n'est pas vide, on affiche les erreurs
+						if(count($liste_erreurs) > 0) {
+							return new Response("<pre>".print_r($liste_erreurs, true)."</pre>");
+						} else {
+							return new Response("L'article est valide !");
+						}
+					
 					
 					try{
 						$entityManager = $this->getDoctrine()->getManager();
@@ -172,9 +189,9 @@ class BlogController extends Controller
 		$em 		= $this->getDoctrine()->getManager();
 		$repository = $this->getDoctrine()->getManager()->getRepository( 'JeanphilippeBlogBundle:Article');
 		$article    = $repository->find($id);
-		$article->setTitre( 'Nouveau titre ***');
+		$article->setTitre( 'Nouveau titre 5454458485');
 		
-		//$em->persist( $article); 	
+		$em->persist( $article); 	
 		$em->flush( );			
 	
         //return $this->redirect( $this->generateUrl('jeanphilippe_voir', array('article' => $article)));

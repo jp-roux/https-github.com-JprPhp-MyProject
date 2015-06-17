@@ -3,6 +3,7 @@
 namespace Jeanphilippe\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Article
@@ -43,25 +44,29 @@ class Article
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $titre;
 
 	/**
      * @ORM\OneToMany(targetEntity="Jeanphilippe\BlogBundle\Entity\Commentaire", mappedBy="article", cascade={"persist", "remove"})
-	 */
+ 	 */
     private $commentaires;	
 	
     /**
      * @var string
      *
      * @ORM\Column(name="contenu", type="text")
-     */
+     * @Assert\NotBlank()
+      */
     private $contenu;
 
     /**
      * @var string
      *
      * @ORM\Column(name="auteur", type="string", length=125, nullable=true)
+     * @Assert\NotBlank()
+	 * @Assert\Length(min=3, max=10, minMessage="auteur > 3 ", maxMessage="auteur < 11 ")
      */
     private $auteur;
 
@@ -69,9 +74,18 @@ class Article
      * @var \DateTime
      *
      * @ORM\Column(name="datecreation", type="datetime")
+     * @Assert\DateTime()
      */
     private $datecreation;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=125)
+      */
+    private $slug;
+    
+    
 
     /**
      * Get id
@@ -180,6 +194,7 @@ class Article
 		$this->datecreation = new \DateTime();
 		$this->publication  = true;
 		$this->categories 	= new \Doctrine\Common\Collections\ArrayCollection();
+		$this->commentaires = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
     /**
@@ -262,4 +277,37 @@ class Article
     }
 
   
+
+    /**
+     * Add commentaires
+     *
+     * @param \Jeanphilippe\BlogBundle\Entity\Commentaire $commentaires
+     * @return Article
+     */
+    public function addCommentaire(\Jeanphilippe\BlogBundle\Entity\Commentaire $commentaires)
+    {
+        $this->commentaires[] = $commentaires;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentaires
+     *
+     * @param \Jeanphilippe\BlogBundle\Entity\Commentaire $commentaires
+     */
+    public function removeCommentaire(\Jeanphilippe\BlogBundle\Entity\Commentaire $commentaires)
+    {
+        $this->commentaires->removeElement($commentaires);
+    }
+
+    /**
+     * Get commentaires
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCommentaires()
+    {
+        return $this->commentaires;
+    }
 }

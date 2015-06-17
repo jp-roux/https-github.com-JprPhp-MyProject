@@ -3,12 +3,14 @@
 namespace Jeanphilippe\BlogBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jeanphilippe\BlogBundle\Entity\Article;
 use Jeanphilippe\BlogBundle\Form\ArticleType;
+
 
 /**
  * Article controller.
@@ -45,10 +47,17 @@ class ArticleController extends Controller
     public function createAction(Request $request)
     {
         $entity = new Article();
+
+
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+			// Generation du Slug
+			$slugger 	= $this->get('jeanphilippe_blog.slugger');
+			$slug 		= $slugger->getSlug($entity->getTitre());
+			$entity->setSlug( $slug);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -191,6 +200,13 @@ class ArticleController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+			// Generation du Slug
+			$slugger 	= $this->get('jeanphilippe_blog.slugger');
+			$slug 		= $slugger->getSlug($entity->getTitre());
+			$entity->setSlug( $slug);
+
+ 
+
             $em->flush();
 
             return $this->redirect($this->generateUrl('article_edit', array('id' => $id)));

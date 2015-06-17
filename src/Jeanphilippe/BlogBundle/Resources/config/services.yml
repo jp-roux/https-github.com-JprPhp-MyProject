@@ -1,4 +1,11 @@
 services:
-#    jeanphilippe_blog.example:
-#        class: Jeanphilippe\BlogBundle\Example
+    jeanphilippe_blog.slugger:
+        class: Jeanphilippe\BlogBundle\Service\Slugger
 #        arguments: [@service_id, "plain_value", %parameter%]
+    jeanphilippe_blog.article_listener:
+        class: Jeanphilippe\BlogBundle\Service\SlugListener
+        calls:
+            - [setSlugger, ["@jeanphilippe_blog.slugger"]]
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: prePersist }

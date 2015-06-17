@@ -2,11 +2,12 @@
 {% block  JeanphilippeBlog_body %}
 <table BORDER=10 WIDTH=50%>
 	<TR>
-		<TH>Id A</TH> <TH>Titre Art</TH> 
+		<TH>Id A</TH> <TH>Titre Art</TH> TH>Slug</TH>  
 	</TR>
 {% for article in articles %}
 	<TR>
-		<TD>{{ article.id|e }}</TD> <TD>{{ article.titre|e }}</TD>
+		<TD>{{ article.id|e }}</TD> <TD>{{ article.titre|e }}</TD> <TD><a href="{{ path("jeanphilippe_voir_slug", {slug: article.slug}) }}">{{article.titre}}</a></TD>
+		
 	</TR>
 {% endfor %}
 </table>	

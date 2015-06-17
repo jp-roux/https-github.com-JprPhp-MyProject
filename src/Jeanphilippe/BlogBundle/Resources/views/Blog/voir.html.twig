@@ -1,7 +1,9 @@
 {% extends "JeanphilippeBlogBundle::layout.html.twig" %}
 {% block  JeanphilippeBlog_body %}
 Article( {{ article.id~article.titre }} ) 
-<img src='{{asset('images/')}}{{article.image.url}} 'alt='{{article.image.alt}}'/img>
+{#<img src='{{asset('images/')}}{{article.image.url}} 'alt='{{article.image.alt}}'/img>#}
+
+<a href="{{path("jeanphilippe_voir_slug", {slug: article.slug}) }}">{{article.titre}}</a>
 
 {% for commentaire in article.commentaires %}
 	<li>{{ commentaire.id|e }}---{{ commentaire.contenu|e }}---{{ commentaire.date|date("m/d/Y:m:s", false) }}</li>

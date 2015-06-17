@@ -20,8 +20,8 @@ class ArticleType extends AbstractType
             ->add('titre')
             ->add('contenu')
 //            ->add('contenu', 'texarea', array('attr'=>array('class'=>'ckeditor')))
-            ->add('auteur')
-            ->add('datecreation')
+            ->add('auteur', null, array( 'attr'=> array( 'title' =>  "L'auteur doit être entre 3C et 10C ")))
+            ->add('datecreation', 'datetime')
 //            ->add('image')
 //            ->add('categories')
 			->add('categories', 'entity',
